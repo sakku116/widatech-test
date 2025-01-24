@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  widatech_test_postgresql:
+    image: postgres:13
+    container_name: widatech_test_postgresql
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - widatech_test_network
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "postgres"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+    restart: always
+
+  widatech_test:
+    build:
+      context: .
+    container_name: widatech_test
+    ports:
+      - "${PORT:-8000}:${PORT:-8000}"
+    networks:
+      - widatech_test_network
+    env_file:
+      - .env
+    depends_on:
+      widatech_test_postgresql:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  widatech_test_network:
+    driver: bridge
