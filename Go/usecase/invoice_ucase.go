@@ -27,7 +27,8 @@ type IInvoiceUcase interface {
 	) (*dto.UpdateInvoiceRespData, error)
 	DeleteInvoice(
 		invoiceUUID string,
-	) (*dto.DeleteInvoiceRespData, error)
+	) error
+	DeleteByInvoiceNo(invoiceNo string) error
 	GetInvoiceDetail(invoiceUUID string) (*dto.GetInvoiceDetailRespData, error)
 	GetInvoiceList(
 		payload dto.GetInvoiceListReq,
@@ -226,21 +227,18 @@ func (u *InvoiceUcase) UpdateInvoice(
 	}, nil
 }
 
-func (u *InvoiceUcase) DeleteInvoice(
-	invoiceUUID string,
-) (*dto.DeleteInvoiceRespData, error) {
-	// find
-	invoice, err := u.invoiceRepo.GetByUUID(invoiceUUID, true)
+func (u *InvoiceUcase) DeleteByInvoiceNo(invoiceNo string) error {
+	err := u.invoiceRepo.DeleteByInvoiceNo(invoiceNo)
 	if err != nil {
 		if err.Error() == "not found" {
-			return nil, &error_utils.CustomErr{
+			return &error_utils.CustomErr{
 				HttpCode: 404,
 				Message:  "invoice not found",
 				Detail:   err.Error(),
 				Data:     nil,
 			}
 		}
-		return nil, &error_utils.CustomErr{
+		return &error_utils.CustomErr{
 			HttpCode: 500,
 			Message:  "internal server error",
 			Detail:   err.Error(),
@@ -248,10 +246,24 @@ func (u *InvoiceUcase) DeleteInvoice(
 		}
 	}
 
-	// delete
-	err = u.invoiceRepo.Delete(invoice)
+	return nil
+}
+
+func (u *InvoiceUcase) DeleteInvoice(
+	invoiceUUID string,
+) error {
+	// find
+	err := u.invoiceRepo.Delete(invoiceUUID)
 	if err != nil {
-		return nil, &error_utils.CustomErr{
+		if err.Error() == "not found" {
+			return &error_utils.CustomErr{
+				HttpCode: 404,
+				Message:  "invoice not found",
+				Detail:   err.Error(),
+				Data:     nil,
+			}
+		}
+		return &error_utils.CustomErr{
 			HttpCode: 500,
 			Message:  "internal server error",
 			Detail:   err.Error(),
@@ -259,9 +271,7 @@ func (u *InvoiceUcase) DeleteInvoice(
 		}
 	}
 
-	return &dto.DeleteInvoiceRespData{
-		BaseInvoiceResp: invoice.ToBaseResp(),
-	}, nil
+	return nil
 }
 
 func (u *InvoiceUcase) GetInvoiceDetail(invoiceUUID string) (*dto.GetInvoiceDetailRespData, error) {

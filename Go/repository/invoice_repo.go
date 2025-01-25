@@ -17,7 +17,8 @@ type InvoiceRepo struct {
 type IInvoiceRepo interface {
 	Create(invoice *model.Invoice) error
 	Update(invoice *model.Invoice) error
-	Delete(invoice *model.Invoice) error
+	Delete(uuid string) error
+	DeleteByInvoiceNo(invoiceNo string) error
 	GetByUUID(uuid string, preload bool) (*model.Invoice, error)
 	GetList(
 		params dto.InvoiceRepo_GetListParams,
@@ -51,8 +52,20 @@ func (r *InvoiceRepo) Update(invoice *model.Invoice) error {
 	return err
 }
 
-func (r *InvoiceRepo) Delete(invoice *model.Invoice) error {
-	err := r.DB.Delete(invoice).Error
+func (r *InvoiceRepo) Delete(uuid string) error {
+	err := r.DB.Where("uuid = ?", uuid).Delete(&model.Invoice{}).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return errors.New("not found")
+		}
+		return errors.New("failed to get")
+	}
+
+	return err
+}
+
+func (r *InvoiceRepo) DeleteByInvoiceNo(invoiceNo string) error {
+	err := r.DB.Where("invoice_no = ?", invoiceNo).Delete(&model.Invoice{}).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return errors.New("not found")

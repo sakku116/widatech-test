@@ -17,6 +17,7 @@ type IInvoiceHandler interface {
 	CreateInvoice(c *gin.Context)
 	UpdateInvoice(c *gin.Context)
 	DeleteInvoice(c *gin.Context)
+	DeleteInvoiceByInvoiceNo(c *gin.Context)
 	GetInvoiceDetail(c *gin.Context)
 	GetInvoiceList(c *gin.Context)
 }
@@ -97,14 +98,35 @@ func (h *InvoiceHandler) UpdateInvoice(c *gin.Context) {
 func (h *InvoiceHandler) DeleteInvoice(c *gin.Context) {
 	invoiceUUID := c.Param("invoice_uuid")
 
-	resp, err := h.invoiceUcase.DeleteInvoice(invoiceUUID)
+	err := h.invoiceUcase.DeleteInvoice(invoiceUUID)
 	if err != nil {
 		h.respWriter.HTTPCustomErr(c, err)
 		return
 	}
 
 	h.respWriter.HTTPJson(
-		c, 200, "success", "", resp,
+		c, 200, "success", "", nil,
+	)
+}
+
+// @Summary delete invoice by invoice no
+// @Tags invoice
+// @Accept json
+// @Produce json
+// @Param invoice_no path string true "invoice no"
+// @Success 200 {object} dto.BaseJSONResp
+// @Router /invoices/{invoice_no} [delete]
+func (h *InvoiceHandler) DeleteInvoiceByInvoiceNo(c *gin.Context) {
+	invoiceNo := c.Param("invoice_no")
+
+	err := h.invoiceUcase.DeleteByInvoiceNo(invoiceNo)
+	if err != nil {
+		h.respWriter.HTTPCustomErr(c, err)
+		return
+	}
+
+	h.respWriter.HTTPJson(
+		c, 200, "success", "", nil,
 	)
 }
 

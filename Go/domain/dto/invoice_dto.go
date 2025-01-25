@@ -128,10 +128,6 @@ type GetInvoiceListRespData struct {
 	Data []model.BaseInvoiceResp `json:"data"`
 }
 
-type DeleteInvoiceRespData struct {
-	model.BaseInvoiceResp
-}
-
 type GetInvoiceDetailRespData struct {
 	model.BaseInvoiceResp
 	Products []model.BaseProductResp `json:"products"`
