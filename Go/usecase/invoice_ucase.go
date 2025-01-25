@@ -197,6 +197,27 @@ func (u *InvoiceUcase) UpdateInvoice(
 					Data:     nil,
 				}
 			}
+
+			if len(products) != len(*payload.ProductUUIDs) {
+				// get the not found products
+				var notFoundUUIDs []string
+				productsMap := make(map[string]model.Product)
+				for _, product := range products {
+					productsMap[product.UUID] = product
+				}
+				for _, uuid := range *payload.ProductUUIDs {
+					if _, ok := productsMap[uuid]; !ok {
+						notFoundUUIDs = append(notFoundUUIDs, uuid)
+					}
+				}
+				return nil, &error_utils.CustomErr{
+					HttpCode: 400,
+					Message:  "invalid request",
+					Detail:   fmt.Sprintf("invalid product uuids, these inputs are not found: %v", notFoundUUIDs),
+					Data:     nil,
+				}
+			}
+
 			invoice.Products = products
 		}
 	}
