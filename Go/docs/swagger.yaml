@@ -76,16 +76,43 @@ definitions:
     type: object
   dto.GetInvoiceListRespData:
     properties:
+      cash_transaction_total:
+        type: integer
       current_page:
         type: integer
       data:
         items:
-          $ref: '#/definitions/model.BaseInvoiceResp'
+          $ref: '#/definitions/dto.GetInvoiceListRespData_DataItem'
         type: array
+      profit_total:
+        type: integer
       total:
         type: integer
       total_page:
         type: integer
+    type: object
+  dto.GetInvoiceListRespData_DataItem:
+    properties:
+      created_at:
+        type: string
+      customer_name:
+        type: string
+      date:
+        type: string
+      invoice_no:
+        type: string
+      notes:
+        type: string
+      payment_type:
+        $ref: '#/definitions/enum.InvoicePaymentType'
+      product_total:
+        type: integer
+      sales_person_name:
+        type: string
+      updated_at:
+        type: string
+      uuid:
+        type: string
     type: object
   dto.UpdateInvoiceReq:
     properties:
@@ -141,27 +168,6 @@ definitions:
     x-enum-varnames:
     - SortOrder_asc
     - SortOrder_desc
-  model.BaseInvoiceResp:
-    properties:
-      created_at:
-        type: string
-      customer_name:
-        type: string
-      date:
-        type: string
-      invoice_no:
-        type: string
-      notes:
-        type: string
-      payment_type:
-        $ref: '#/definitions/enum.InvoicePaymentType'
-      sales_person_name:
-        type: string
-      updated_at:
-        type: string
-      uuid:
-        type: string
-    type: object
   model.BaseProductResp:
     properties:
       created_at:
@@ -190,11 +196,14 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: DD-MM-YYYY
+      - description: 'DD-MM-YYYY, fill up date_from and date_to to get profit_total
+          and cash_transaction_total. WARNING: if date_from is set, pagination will
+          be ignored for profit calculation.'
         in: query
         name: date_from
         type: string
-      - description: DD-MM-YYYY
+      - description: DD-MM-YYYY, fill up date_from and date_to to get profit_total
+          and cash_transaction_total
         in: query
         name: date_to
         type: string

@@ -343,19 +343,31 @@ func (u *InvoiceUcase) GetInvoiceList(
 		}
 	}
 
+	// ignore pagination when date_from is set (for profit calculation)
+	var page, limit *int
+	if payload.DateFrom != nil {
+		logger.Debugf("pagination ignored because date_from is set")
+		page = nil
+		limit = nil
+	} else {
+		page = &payload.Page
+		limit = &payload.Limit
+	}
+
 	// find
 	invoices, count, err := u.invoiceRepo.GetList(
 		dto.InvoiceRepo_GetListParams{
-			Date_gte:    date_gte,
-			Date_lte:    date_lte,
-			PaymentType: payload.PaymentType,
-			Query:       payload.Query,
-			QueryBy:     payload.QueryBy,
-			Page:        &payload.Page,
-			Limit:       &payload.Limit,
-			SortOrder:   &payload.SortOrder,
-			SortBy:      &payload.SortBy,
-			DoCount:     true,
+			Date_gte:        date_gte,
+			Date_lte:        date_lte,
+			PaymentType:     payload.PaymentType,
+			Query:           payload.Query,
+			QueryBy:         payload.QueryBy,
+			Page:            page,
+			Limit:           limit,
+			SortOrder:       &payload.SortOrder,
+			SortBy:          &payload.SortBy,
+			DoCount:         true,
+			PreloadProducts: true,
 		},
 	)
 	if err != nil {
@@ -369,10 +381,26 @@ func (u *InvoiceUcase) GetInvoiceList(
 
 	// resp
 	resp := &dto.GetInvoiceListRespData{}
-	logger.Debugf("count: %v", count)
 	resp.SetPagination(count, payload.Page, payload.Limit)
 	for _, invoice := range invoices {
-		resp.Data = append(resp.Data, invoice.ToBaseResp())
+		resp.Data = append(resp.Data, dto.GetInvoiceListRespData_DataItem{
+			BaseInvoiceResp: invoice.ToBaseResp(),
+			ProductTotal:    len(invoice.Products),
+		})
+	}
+
+	// calculate profit_total and cash_transaction_total
+	if payload.DateFrom == nil || payload.DateTo == nil {
+		logger.Debugf("calculating profit_total and cash_transaction_total")
+		var profitTotal, cashTransactionTotal int64
+		for _, invoice := range invoices {
+			for _, product := range invoice.Products {
+				profitTotal += product.TotalPriceSold - product.TotalCostOfGoodsSold
+				cashTransactionTotal += product.TotalPriceSold + product.TotalCostOfGoodsSold
+			}
+		}
+		resp.ProfitTotal = profitTotal
+		resp.CashTransactionTotal = cashTransactionTotal
 	}
 
 	return resp, nil

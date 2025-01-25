@@ -20,13 +20,13 @@
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "DD-MM-YYYY",
+                        "description": "DD-MM-YYYY, fill up date_from and date_to to get profit_total and cash_transaction_total. WARNING: if date_from is set, pagination will be ignored for profit calculation.",
                         "name": "date_from",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "DD-MM-YYYY",
+                        "description": "DD-MM-YYYY, fill up date_from and date_to to get profit_total and cash_transaction_total",
                         "name": "date_to",
                         "in": "query"
                     },
@@ -437,20 +437,61 @@
         "dto.GetInvoiceListRespData": {
             "type": "object",
             "properties": {
+                "cash_transaction_total": {
+                    "type": "integer"
+                },
                 "current_page": {
                     "type": "integer"
                 },
                 "data": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.BaseInvoiceResp"
+                        "$ref": "#/definitions/dto.GetInvoiceListRespData_DataItem"
                     }
+                },
+                "profit_total": {
+                    "type": "integer"
                 },
                 "total": {
                     "type": "integer"
                 },
                 "total_page": {
                     "type": "integer"
+                }
+            }
+        },
+        "dto.GetInvoiceListRespData_DataItem": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "customer_name": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "invoice_no": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "payment_type": {
+                    "$ref": "#/definitions/enum.InvoicePaymentType"
+                },
+                "product_total": {
+                    "type": "integer"
+                },
+                "sales_person_name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
                 }
             }
         },
@@ -532,38 +573,6 @@
                 "SortOrder_asc",
                 "SortOrder_desc"
             ]
-        },
-        "model.BaseInvoiceResp": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "customer_name": {
-                    "type": "string"
-                },
-                "date": {
-                    "type": "string"
-                },
-                "invoice_no": {
-                    "type": "string"
-                },
-                "notes": {
-                    "type": "string"
-                },
-                "payment_type": {
-                    "$ref": "#/definitions/enum.InvoicePaymentType"
-                },
-                "sales_person_name": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "uuid": {
-                    "type": "string"
-                }
-            }
         },
         "model.BaseProductResp": {
             "type": "object",

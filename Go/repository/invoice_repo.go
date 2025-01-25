@@ -171,6 +171,11 @@ func (repo *InvoiceRepo) GetList(
 		tx = tx.Offset((*params.Page - 1) * *params.Limit).Limit(*params.Limit)
 	}
 
+	// preload
+	if params.PreloadProducts {
+		tx = tx.Preload("Products")
+	}
+
 	err = tx.Find(&result).Error
 	if err != nil {
 		return nil, totalData, errors.New("failed to get: " + err.Error())
