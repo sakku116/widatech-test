@@ -115,7 +115,7 @@ func (h *InvoiceHandler) DeleteInvoice(c *gin.Context) {
 // @Produce json
 // @Param invoice_no path string true "invoice no"
 // @Success 200 {object} dto.BaseJSONResp
-// @Router /invoices/{invoice_no} [delete]
+// @Router /invoices/no/{invoice_no} [delete]
 func (h *InvoiceHandler) DeleteInvoiceByInvoiceNo(c *gin.Context) {
 	invoiceNo := c.Param("invoice_no")
 

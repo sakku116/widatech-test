@@ -8,6 +8,7 @@ import (
 	"backend/utils/helper"
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -317,9 +318,36 @@ func (u *InvoiceUcase) GetInvoiceList(
 		}
 	}
 
+	// parse date range
+	var date_gte, date_lte *time.Time
+	if payload.DateFrom != nil {
+		date_gte, err = helper.ParseDateString(*payload.DateFrom)
+		if err != nil {
+			return nil, &error_utils.CustomErr{
+				HttpCode: 400,
+				Message:  "invalid request",
+				Detail:   fmt.Sprintf("invalid from date: %v", err.Error()),
+				Data:     nil,
+			}
+		}
+	}
+	if payload.DateTo != nil {
+		date_lte, err = helper.ParseDateString(*payload.DateTo)
+		if err != nil {
+			return nil, &error_utils.CustomErr{
+				HttpCode: 400,
+				Message:  "invalid request",
+				Detail:   fmt.Sprintf("invalid to date: %v", err.Error()),
+				Data:     nil,
+			}
+		}
+	}
+
 	// find
 	invoices, count, err := u.invoiceRepo.GetList(
 		dto.InvoiceRepo_GetListParams{
+			Date_gte:    date_gte,
+			Date_lte:    date_lte,
 			PaymentType: payload.PaymentType,
 			Query:       payload.Query,
 			QueryBy:     payload.QueryBy,
@@ -327,6 +355,7 @@ func (u *InvoiceUcase) GetInvoiceList(
 			Limit:       &payload.Limit,
 			SortOrder:   &payload.SortOrder,
 			SortBy:      &payload.SortBy,
+			DoCount:     true,
 		},
 	)
 	if err != nil {
@@ -340,6 +369,7 @@ func (u *InvoiceUcase) GetInvoiceList(
 
 	// resp
 	resp := &dto.GetInvoiceListRespData{}
+	logger.Debugf("count: %v", count)
 	resp.SetPagination(count, payload.Page, payload.Limit)
 	for _, invoice := range invoices {
 		resp.Data = append(resp.Data, invoice.ToBaseResp())

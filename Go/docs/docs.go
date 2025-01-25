@@ -29,6 +29,18 @@ const docTemplate = `{
                 "summary": "get invoice list",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "DD-MM-YYYY",
+                        "name": "date_from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "DD-MM-YYYY",
+                        "name": "date_to",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "default": 10,
                         "name": "limit",
@@ -160,6 +172,37 @@ const docTemplate = `{
                                     }
                                 }
                             ]
+                        }
+                    }
+                }
+            }
+        },
+        "/invoices/no/{invoice_no}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "invoice"
+                ],
+                "summary": "delete invoice by invoice no",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "invoice no",
+                        "name": "invoice_no",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseJSONResp"
                         }
                     }
                 }

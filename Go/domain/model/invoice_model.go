@@ -64,7 +64,7 @@ type BaseInvoiceResp struct {
 	CreatedAt       time.Time               `json:"created_at"`
 	UpdatedAt       time.Time               `json:"updated_at"`
 	InvoiceNo       string                  `json:"invoice_no"`
-	Date            string                  `json:"date"`
+	Date            time.Time               `json:"date"`
 	CustomerName    string                  `json:"customer_name"`
 	SalesPersonName string                  `json:"sales_person_name"`
 	PaymentType     enum.InvoicePaymentType `json:"payment_type"`
@@ -77,7 +77,7 @@ func (i *Invoice) ToBaseResp() BaseInvoiceResp {
 		CreatedAt:       i.CreatedAt,
 		UpdatedAt:       i.UpdatedAt,
 		InvoiceNo:       i.InvoiceNo,
-		Date:            i.Date.Format(time.RFC3339),
+		Date:            i.Date,
 		CustomerName:    i.CustomerName,
 		SalesPersonName: i.SalesPersonName,
 		PaymentType:     i.PaymentType,

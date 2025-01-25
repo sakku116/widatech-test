@@ -111,6 +111,18 @@ func (repo *InvoiceRepo) GetList(
 	if params.PaymentType != nil {
 		tx = tx.Where("payment_type = ?", *params.PaymentType)
 	}
+	if params.CreatedAt_gte != nil {
+		tx = tx.Where("created_at >= ?", *params.CreatedAt_gte)
+	}
+	if params.CreatedAt_lte != nil {
+		tx = tx.Where("created_at <= ?", *params.CreatedAt_lte)
+	}
+	if params.Date_gte != nil {
+		tx = tx.Where("date >= ?", *params.Date_gte)
+	}
+	if params.Date_lte != nil {
+		tx = tx.Where("date <= ?", *params.Date_lte)
+	}
 	if params.Query != nil {
 		if params.QueryBy != nil {
 			tx = tx.Where(fmt.Sprintf("%s LIKE ?", *params.QueryBy), "%"+*params.Query+"%")

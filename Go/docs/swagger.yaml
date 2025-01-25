@@ -190,6 +190,14 @@ paths:
       consumes:
       - application/json
       parameters:
+      - description: DD-MM-YYYY
+        in: query
+        name: date_from
+        type: string
+      - description: DD-MM-YYYY
+        in: query
+        name: date_to
+        type: string
       - default: 10
         in: query
         name: limit
@@ -353,6 +361,26 @@ paths:
                   $ref: '#/definitions/dto.UpdateInvoiceRespData'
               type: object
       summary: update invoice
+      tags:
+      - invoice
+  /invoices/no/{invoice_no}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: invoice no
+        in: path
+        name: invoice_no
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BaseJSONResp'
+      summary: delete invoice by invoice no
       tags:
       - invoice
 swagger: "2.0"
