@@ -5,13 +5,13 @@ services:
     image: postgres:13
     container_name: widatech_test_postgresql
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=postgres
+    - POSTGRES_USER=${POSTGRESQL_USER}
+    - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
+    - POSTGRES_DB=postgres
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - widatech_test_postgresql:/var/lib/postgresql/data
     networks:
       - widatech_test_network
     env_file:
@@ -38,6 +38,10 @@ services:
       widatech_test_postgresql:
         condition: service_healthy
     restart: unless-stopped
+
+volumes:
+  widatech_test_postgresql:
+    driver: local
 
 networks:
   widatech_test_network:

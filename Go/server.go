@@ -2,6 +2,7 @@ package main
 
 import (
 	"backend/domain/dto"
+	"backend/handler"
 	"backend/utils/http_response"
 
 	_ "backend/docs"
@@ -16,6 +17,8 @@ func SetupServer(ginEngine *gin.Engine, deps CommonDeps) {
 	_ = responseWriter
 
 	// handlers
+	invoiceHandler := handler.NewInvoiceHandler(responseWriter, deps.invoiceUcase)
+
 	// register routes
 	router := ginEngine
 	router.GET("/ping", func(c *gin.Context) {
@@ -24,6 +27,13 @@ func SetupServer(ginEngine *gin.Engine, deps CommonDeps) {
 			Message: "pong",
 		})
 	})
+
+	// invoice
+	router.POST("/invoices", invoiceHandler.CreateInvoice)
+	router.PUT("/invoices/:invoice_uuid", invoiceHandler.UpdateInvoice)
+	router.DELETE("/invoices/:invoice_uuid", invoiceHandler.DeleteInvoice)
+	router.GET("/invoices/:invoice_uuid", invoiceHandler.GetInvoiceDetail)
+	router.GET("/invoices", invoiceHandler.GetInvoiceList)
 
 	// swagger
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))

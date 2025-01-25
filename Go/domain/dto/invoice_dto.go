@@ -4,8 +4,6 @@ import (
 	"backend/domain/enum"
 	"backend/domain/model"
 	"fmt"
-
-	"github.com/google/uuid"
 )
 
 type InvoiceRepo_GetListParams struct {
@@ -65,7 +63,7 @@ type CreateInvoiceReq struct {
 	SalesPersonName string                  `json:"sales_person_name" binding:"required"`
 	PaymentType     enum.InvoicePaymentType `json:"payment_type" binding:"required"`
 	Notes           *string                 `json:"notes" binding:"omitempty"`
-	ProductUUIDs    []uuid.UUID             `json:"product_uuids" binding:"required"`
+	ProductUUIDs    []string                `json:"product_uuids" binding:"required"`
 }
 
 func (c *CreateInvoiceReq) Validate() error {
@@ -85,7 +83,18 @@ type UpdateInvoiceReq struct {
 	SalesPersonName *string                  `json:"sales_person_name" binding:"omitempty"`
 	PaymentType     *enum.InvoicePaymentType `json:"payment_type" binding:"omitempty"`
 	Notes           *string                  `json:"notes" binding:"omitempty"`         // use 'null' to set explicitly to null
-	ProductUUIDs    *[]uuid.UUID             `json:"product_uuids" binding:"omitempty"` // use 'null' remove all products
+	ProductUUIDs    *[]string                `json:"product_uuids" binding:"omitempty"` // use empty array [] remove all products
+}
+
+func (r *UpdateInvoiceReq) Validate() error {
+	if r.PaymentType != nil && !(*r.PaymentType).IsValid() {
+		return fmt.Errorf("invalid payment_type")
+	}
+	return nil
+}
+
+type UpdateInvoiceRespData struct {
+	model.BaseInvoiceResp
 }
 
 type GetInvoiceByUUIDRespData struct {
@@ -93,9 +102,9 @@ type GetInvoiceByUUIDRespData struct {
 }
 
 type GetInvoiceListReq struct {
-	PaymentType *enum.InvoicePaymentType `form:"payment_type" binding:"omitempty,oneof=CASH CREDIT"`
+	PaymentType *enum.InvoicePaymentType `form:"payment_type" binding:"omitempty,oneof=CASH CREDIT"` // leave empty to query all payment types
 	Query       *string                  `form:"query" binding:"omitempty"`
-	QueryBy     *string                  `form:"query_by" binding:"omitempty,oneof=invoice_no customer_name sales_person_name"` // leave empty to query by all
+	QueryBy     *string                  `form:"query_by" binding:"omitempty,oneof=invoice_no customer_name sales_person_name"` // leave empty to query by all queriable fields
 	Page        int                      `form:"page" binding:"required" default:"1"`
 	Limit       int                      `form:"limit" binding:"required" default:"10"`
 	SortOrder   enum.SortOrder           `form:"sort_order" binding:"required,oneof=asc desc" default:"desc"`
@@ -117,4 +126,13 @@ func (r *GetInvoiceListReq) Validate() error {
 type GetInvoiceListRespData struct {
 	BasePaginationRespData
 	Data []model.BaseInvoiceResp `json:"data"`
+}
+
+type DeleteInvoiceRespData struct {
+	model.BaseInvoiceResp
+}
+
+type GetInvoiceDetailRespData struct {
+	model.BaseInvoiceResp
+	Products []model.BaseProductResp `json:"products"`
 }

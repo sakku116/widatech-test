@@ -5,13 +5,12 @@ import (
 	"errors"
 	"time"
 
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type Invoice struct {
 	gorm.Model
-	UUID            uuid.UUID               `gorm:"type:uuid;not null" json:"uuid"`
+	UUID            string                  `gorm:"type:varchar(50);not null" json:"uuid"`
 	InvoiceNo       string                  `gorm:"type:varchar(50);not null;unique" json:"invoice_no"`
 	Date            time.Time               `gorm:"type:timestamp;not null" json:"date"`
 	CustomerName    string                  `gorm:"type:varchar(100);not null" json:"customer_name"`
@@ -61,7 +60,7 @@ func (i *Invoice) Validate() error {
 }
 
 type BaseInvoiceResp struct {
-	UUID            uuid.UUID               `json:"uuid"`
+	UUID            string                  `json:"uuid"`
 	CreatedAt       time.Time               `json:"created_at"`
 	UpdatedAt       time.Time               `json:"updated_at"`
 	InvoiceNo       string                  `json:"invoice_no"`

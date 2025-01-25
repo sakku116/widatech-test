@@ -4,5 +4,552 @@
         "title": "Widatech Test",
         "contact": {}
     },
-    "paths": {}
+    "paths": {
+        "/invoices": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "invoice"
+                ],
+                "summary": "get invoice list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "name": "limit",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "CASH",
+                            "CREDIT"
+                        ],
+                        "type": "string",
+                        "x-enum-varnames": [
+                            "InvoicePaymentType_CASH",
+                            "InvoicePaymentType_CREDIT"
+                        ],
+                        "description": "leave empty to query all payment types",
+                        "name": "payment_type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "query",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "invoice_no",
+                            "customer_name",
+                            "sales_person_name"
+                        ],
+                        "type": "string",
+                        "description": "leave empty to query by all queriable fields",
+                        "name": "query_by",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "created_at",
+                            "updated_at",
+                            "invoice_no"
+                        ],
+                        "type": "string",
+                        "default": "updated_at",
+                        "name": "sort_by",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "asc",
+                            "desc"
+                        ],
+                        "type": "string",
+                        "default": "desc",
+                        "x-enum-varnames": [
+                            "SortOrder_asc",
+                            "SortOrder_desc"
+                        ],
+                        "name": "sort_order",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/dto.BaseJSONResp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.GetInvoiceListRespData"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "invoice"
+                ],
+                "summary": "create new invoice",
+                "parameters": [
+                    {
+                        "description": "create invoice request",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateInvoiceReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/dto.BaseJSONResp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.CreateInvoiceResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/invoices/{invoice_uuid}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "invoice"
+                ],
+                "summary": "get invoice detail",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "invoice uuid",
+                        "name": "invoice_uuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/dto.BaseJSONResp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.GetInvoiceDetailRespData"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "invoice"
+                ],
+                "summary": "update invoice",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "invoice uuid",
+                        "name": "invoice_uuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "update invoice request",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateInvoiceReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/dto.BaseJSONResp"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.UpdateInvoiceRespData"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "invoice"
+                ],
+                "summary": "delete invoice",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "invoice uuid",
+                        "name": "invoice_uuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseJSONResp"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.BaseJSONResp": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "detail": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateInvoiceReq": {
+            "type": "object",
+            "required": [
+                "customer_name",
+                "payment_type",
+                "product_uuids",
+                "sales_person_name"
+            ],
+            "properties": {
+                "customer_name": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "payment_type": {
+                    "$ref": "#/definitions/enum.InvoicePaymentType"
+                },
+                "product_uuids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "sales_person_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateInvoiceResp": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "customer_name": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "invoice_no": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "payment_type": {
+                    "$ref": "#/definitions/enum.InvoicePaymentType"
+                },
+                "sales_person_name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.GetInvoiceDetailRespData": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "customer_name": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "invoice_no": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "payment_type": {
+                    "$ref": "#/definitions/enum.InvoicePaymentType"
+                },
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.BaseProductResp"
+                    }
+                },
+                "sales_person_name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.GetInvoiceListRespData": {
+            "type": "object",
+            "properties": {
+                "current_page": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.BaseInvoiceResp"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "total_page": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.UpdateInvoiceReq": {
+            "type": "object",
+            "properties": {
+                "customer_name": {
+                    "type": "string"
+                },
+                "notes": {
+                    "description": "use 'null' to set explicitly to null",
+                    "type": "string"
+                },
+                "payment_type": {
+                    "$ref": "#/definitions/enum.InvoicePaymentType"
+                },
+                "product_uuids": {
+                    "description": "use empty array [] remove all products",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "sales_person_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UpdateInvoiceRespData": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "customer_name": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "invoice_no": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "payment_type": {
+                    "$ref": "#/definitions/enum.InvoicePaymentType"
+                },
+                "sales_person_name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "enum.InvoicePaymentType": {
+            "type": "string",
+            "enum": [
+                "CASH",
+                "CREDIT"
+            ],
+            "x-enum-varnames": [
+                "InvoicePaymentType_CASH",
+                "InvoicePaymentType_CREDIT"
+            ]
+        },
+        "enum.SortOrder": {
+            "type": "string",
+            "enum": [
+                "asc",
+                "desc"
+            ],
+            "x-enum-varnames": [
+                "SortOrder_asc",
+                "SortOrder_desc"
+            ]
+        },
+        "model.BaseInvoiceResp": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "customer_name": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "invoice_no": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "payment_type": {
+                    "$ref": "#/definitions/enum.InvoicePaymentType"
+                },
+                "sales_person_name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.BaseProductResp": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "invoice_uuid": {
+                    "type": "string"
+                },
+                "item_name": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "total_cost_of_goods_sold": {
+                    "type": "integer"
+                },
+                "total_price_sold": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }

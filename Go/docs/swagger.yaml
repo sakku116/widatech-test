@@ -1,5 +1,358 @@
+definitions:
+  dto.BaseJSONResp:
+    properties:
+      code:
+        type: integer
+      data: {}
+      detail: {}
+      message:
+        type: string
+    type: object
+  dto.CreateInvoiceReq:
+    properties:
+      customer_name:
+        type: string
+      notes:
+        type: string
+      payment_type:
+        $ref: '#/definitions/enum.InvoicePaymentType'
+      product_uuids:
+        items:
+          type: string
+        type: array
+      sales_person_name:
+        type: string
+    required:
+    - customer_name
+    - payment_type
+    - product_uuids
+    - sales_person_name
+    type: object
+  dto.CreateInvoiceResp:
+    properties:
+      created_at:
+        type: string
+      customer_name:
+        type: string
+      date:
+        type: string
+      invoice_no:
+        type: string
+      notes:
+        type: string
+      payment_type:
+        $ref: '#/definitions/enum.InvoicePaymentType'
+      sales_person_name:
+        type: string
+      updated_at:
+        type: string
+      uuid:
+        type: string
+    type: object
+  dto.GetInvoiceDetailRespData:
+    properties:
+      created_at:
+        type: string
+      customer_name:
+        type: string
+      date:
+        type: string
+      invoice_no:
+        type: string
+      notes:
+        type: string
+      payment_type:
+        $ref: '#/definitions/enum.InvoicePaymentType'
+      products:
+        items:
+          $ref: '#/definitions/model.BaseProductResp'
+        type: array
+      sales_person_name:
+        type: string
+      updated_at:
+        type: string
+      uuid:
+        type: string
+    type: object
+  dto.GetInvoiceListRespData:
+    properties:
+      current_page:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/model.BaseInvoiceResp'
+        type: array
+      total:
+        type: integer
+      total_page:
+        type: integer
+    type: object
+  dto.UpdateInvoiceReq:
+    properties:
+      customer_name:
+        type: string
+      notes:
+        description: use 'null' to set explicitly to null
+        type: string
+      payment_type:
+        $ref: '#/definitions/enum.InvoicePaymentType'
+      product_uuids:
+        description: use empty array [] remove all products
+        items:
+          type: string
+        type: array
+      sales_person_name:
+        type: string
+    type: object
+  dto.UpdateInvoiceRespData:
+    properties:
+      created_at:
+        type: string
+      customer_name:
+        type: string
+      date:
+        type: string
+      invoice_no:
+        type: string
+      notes:
+        type: string
+      payment_type:
+        $ref: '#/definitions/enum.InvoicePaymentType'
+      sales_person_name:
+        type: string
+      updated_at:
+        type: string
+      uuid:
+        type: string
+    type: object
+  enum.InvoicePaymentType:
+    enum:
+    - CASH
+    - CREDIT
+    type: string
+    x-enum-varnames:
+    - InvoicePaymentType_CASH
+    - InvoicePaymentType_CREDIT
+  enum.SortOrder:
+    enum:
+    - asc
+    - desc
+    type: string
+    x-enum-varnames:
+    - SortOrder_asc
+    - SortOrder_desc
+  model.BaseInvoiceResp:
+    properties:
+      created_at:
+        type: string
+      customer_name:
+        type: string
+      date:
+        type: string
+      invoice_no:
+        type: string
+      notes:
+        type: string
+      payment_type:
+        $ref: '#/definitions/enum.InvoicePaymentType'
+      sales_person_name:
+        type: string
+      updated_at:
+        type: string
+      uuid:
+        type: string
+    type: object
+  model.BaseProductResp:
+    properties:
+      created_at:
+        type: string
+      invoice_uuid:
+        type: string
+      item_name:
+        type: string
+      quantity:
+        type: integer
+      total_cost_of_goods_sold:
+        type: integer
+      total_price_sold:
+        type: integer
+      updated_at:
+        type: string
+      uuid:
+        type: string
+    type: object
 info:
   contact: {}
   title: Widatech Test
-paths: {}
+paths:
+  /invoices:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - default: 10
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - default: 1
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: leave empty to query all payment types
+        enum:
+        - CASH
+        - CREDIT
+        in: query
+        name: payment_type
+        type: string
+        x-enum-varnames:
+        - InvoicePaymentType_CASH
+        - InvoicePaymentType_CREDIT
+      - in: query
+        name: query
+        type: string
+      - description: leave empty to query by all queriable fields
+        enum:
+        - invoice_no
+        - customer_name
+        - sales_person_name
+        in: query
+        name: query_by
+        type: string
+      - default: updated_at
+        enum:
+        - created_at
+        - updated_at
+        - invoice_no
+        in: query
+        name: sort_by
+        required: true
+        type: string
+      - default: desc
+        enum:
+        - asc
+        - desc
+        in: query
+        name: sort_order
+        required: true
+        type: string
+        x-enum-varnames:
+        - SortOrder_asc
+        - SortOrder_desc
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.BaseJSONResp'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.GetInvoiceListRespData'
+              type: object
+      summary: get invoice list
+      tags:
+      - invoice
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: create invoice request
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateInvoiceReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.BaseJSONResp'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.CreateInvoiceResp'
+              type: object
+      summary: create new invoice
+      tags:
+      - invoice
+  /invoices/{invoice_uuid}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: invoice uuid
+        in: path
+        name: invoice_uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BaseJSONResp'
+      summary: delete invoice
+      tags:
+      - invoice
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: invoice uuid
+        in: path
+        name: invoice_uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.BaseJSONResp'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.GetInvoiceDetailRespData'
+              type: object
+      summary: get invoice detail
+      tags:
+      - invoice
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: invoice uuid
+        in: path
+        name: invoice_uuid
+        required: true
+        type: string
+      - description: update invoice request
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateInvoiceReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.BaseJSONResp'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.UpdateInvoiceRespData'
+              type: object
+      summary: update invoice
+      tags:
+      - invoice
 swagger: "2.0"

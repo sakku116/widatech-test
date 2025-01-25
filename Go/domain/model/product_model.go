@@ -4,19 +4,18 @@ import (
 	"errors"
 	"time"
 
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type Product struct {
 	gorm.Model
-	UUID                 uuid.UUID `gorm:"type:uuid;not null" json:"uuid"`
-	InvoiceID            uint      `gorm:"not null;index;constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"-"`
-	InvoiceUUID          uuid.UUID `gorm:"type:uuid;not null;index" json:"invoice_uuid"`
-	ItemName             string    `gorm:"type:varchar(100);not null" json:"item_name"`
-	Quantity             int       `gorm:"not null" json:"quantity"`
-	TotalCostOfGoodsSold int64     `gorm:"not null" json:"total_cost_of_goods_sold"`
-	TotalPriceSold       int64     `gorm:"not null" json:"total_price_sold"`
+	UUID                 string `gorm:"type:varchar(50);not null" json:"uuid"`
+	InvoiceID            uint   `gorm:"not null;index;constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"-"`
+	InvoiceUUID          string `gorm:"type:varchar(50);not null;index" json:"invoice_uuid"`
+	ItemName             string `gorm:"type:varchar(100);not null" json:"item_name"`
+	Quantity             int    `gorm:"not null" json:"quantity"`
+	TotalCostOfGoodsSold int64  `gorm:"not null" json:"total_cost_of_goods_sold"`
+	TotalPriceSold       int64  `gorm:"not null" json:"total_price_sold"`
 }
 
 func (i *Product) GetProps() ModelProps {
@@ -45,8 +44,8 @@ func (i *Product) Validate() error {
 }
 
 type BaseProductResp struct {
-	UUID                 uuid.UUID `json:"uuid"`
-	InvoiceUUID          uuid.UUID `json:"invoice_uuid"`
+	UUID                 string    `json:"uuid"`
+	InvoiceUUID          string    `json:"invoice_uuid"`
 	CreatedAt            time.Time `json:"created_at"`
 	UpdatedAt            time.Time `json:"updated_at"`
 	ItemName             string    `json:"item_name"`

@@ -2,6 +2,9 @@ package main
 
 import (
 	"backend/config"
+	"backend/domain/model"
+	"backend/repository"
+	ucase "backend/usecase"
 	"backend/utils/helper"
 	"fmt"
 
@@ -23,16 +26,24 @@ func main() {
 	gormDB := config.NewPostgresqlDB()
 
 	// migrations
-	err := gormDB.AutoMigrate()
+	err := gormDB.AutoMigrate(
+		&model.Invoice{},
+		&model.Product{},
+	)
 	if err != nil {
 		logger.Fatalf("failed to migrate database: %v", err)
 	}
 
 	// repositories
+	invoiceRepo := repository.NewInvoiceRepo(gormDB)
+	productRepo := repository.NewProductRepo(gormDB)
 
 	// ucases
+	invoiceUcase := ucase.NewInvoiceUcase(invoiceRepo, productRepo)
 
-	dependencies := CommonDeps{}
+	dependencies := CommonDeps{
+		invoiceUcase: invoiceUcase,
+	}
 
 	ginEngine := gin.Default()
 	SetupServer(ginEngine, dependencies)

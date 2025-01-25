@@ -23,7 +23,7 @@ type IProductRepo interface {
 	GetList(
 		params dto.ProductRepo_GetListParams,
 	) ([]model.Product, int64, error)
-	GetListByUUIDs(uuids []uuid.UUID) ([]model.Product, error)
+	GetListByUUIDs(uuids []string) ([]model.Product, error)
 }
 
 func NewProductRepo(db *gorm.DB) IProductRepo {
@@ -82,7 +82,7 @@ func (r *ProductRepo) GetByUUID(uuid uuid.UUID, preload bool) (*model.Product, e
 	return &invoice, err
 }
 
-func (repo *ProductRepo) GetListByUUIDs(uuids []uuid.UUID) ([]model.Product, error) {
+func (repo *ProductRepo) GetListByUUIDs(uuids []string) ([]model.Product, error) {
 	var result []model.Product
 	query := repo.DB
 	err := query.Where("uuid IN ?", uuids).Find(&result).Error
