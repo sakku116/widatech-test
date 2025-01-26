@@ -17,6 +17,7 @@ const docTemplate = `{
     "paths": {
         "/invoices": {
             "get": {
+                "description": "set date_from and date_to to get profit_total and cash_transaction_total.\\nif date_from is set, pagination will be ignored for profit calculation.",
                 "consumes": [
                     "application/json"
                 ],
@@ -172,6 +173,37 @@ const docTemplate = `{
                                     }
                                 }
                             ]
+                        }
+                    }
+                }
+            }
+        },
+        "/invoices/import": {
+            "post": {
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "invoice"
+                ],
+                "summary": "import invoice from xlsx",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "xlsx file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseJSONResp"
                         }
                     }
                 }

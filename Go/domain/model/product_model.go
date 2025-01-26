@@ -12,6 +12,7 @@ type Product struct {
 	UUID                 string `gorm:"type:varchar(50);not null" json:"uuid"`
 	InvoiceID            uint   `gorm:"not null;index;constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"-"`
 	InvoiceUUID          string `gorm:"type:varchar(50);not null;index" json:"invoice_uuid"`
+	InvoiceNo            string `gorm:"type:varchar(50);not null;index" json:"invoice_no"`
 	ItemName             string `gorm:"type:varchar(100);not null" json:"item_name"`
 	Quantity             int    `gorm:"not null" json:"quantity"`
 	TotalCostOfGoodsSold int64  `gorm:"not null" json:"total_cost_of_goods_sold"`

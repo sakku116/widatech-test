@@ -20,6 +20,7 @@ type IInvoiceRepo interface {
 	Delete(uuid string) error
 	DeleteByInvoiceNo(invoiceNo string) error
 	GetByUUID(uuid string, preload bool) (*model.Invoice, error)
+	GetByInvoiceNo(invoiceNo string) (*model.Invoice, error)
 	GetList(
 		params dto.InvoiceRepo_GetListParams,
 	) ([]model.Invoice, int64, error)
@@ -83,6 +84,20 @@ func (r *InvoiceRepo) GetByUUID(uuid string, preload bool) (*model.Invoice, erro
 		query = query.Preload("Products")
 	}
 	err := query.Where("uuid = ?", uuid).First(&invoice).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, errors.New("not found")
+		}
+		return nil, errors.New("failed to get")
+	}
+
+	return &invoice, err
+}
+
+func (r *InvoiceRepo) GetByInvoiceNo(invoiceNo string) (*model.Invoice, error) {
+	var invoice model.Invoice
+	query := r.DB
+	err := query.Where("invoice_no = ?", invoiceNo).First(&invoice).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, errors.New("not found")

@@ -4,6 +4,8 @@ import (
 	"backend/domain/dto"
 	ucase "backend/usecase"
 	"backend/utils/http_response"
+	"os"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,6 +22,7 @@ type IInvoiceHandler interface {
 	DeleteInvoiceByInvoiceNo(c *gin.Context)
 	GetInvoiceDetail(c *gin.Context)
 	GetInvoiceList(c *gin.Context)
+	ImportFromXlsx(c *gin.Context)
 }
 
 func NewInvoiceHandler(
@@ -152,6 +155,7 @@ func (h *InvoiceHandler) GetInvoiceDetail(c *gin.Context) {
 }
 
 // @Summary get invoice list
+// @Description set date_from and date_to to get profit_total and cash_transaction_total.\nif date_from and date_to is set, pagination will be ignored for profit calculation.
 // @Tags invoice
 // @Accept json
 // @Produce json
@@ -175,5 +179,68 @@ func (h *InvoiceHandler) GetInvoiceList(c *gin.Context) {
 
 	h.respWriter.HTTPJson(
 		c, 200, "success", "", resp,
+	)
+}
+
+// @Summary import invoice from xlsx
+// @Tags invoice
+// @Accept multipart/form-data
+// @Produce json
+// @Param file formData file true "xlsx file"
+// @Success 200 {object} dto.BaseJSONResp
+// @Router /invoices/import [post]
+func (h *InvoiceHandler) ImportFromXlsx(c *gin.Context) {
+	file, err := c.FormFile("file")
+	if err != nil {
+		h.respWriter.HTTPJson(
+			c, 400, "invalid request", err.Error(), nil,
+		)
+		return
+	}
+
+	// validate file extension
+	ext := filepath.Ext(file.Filename)
+	if ext != ".xlsx" {
+		h.respWriter.HTTPJson(
+			c, 400, "invalid request", "invalid file extension, must be xlsx", nil,
+		)
+		return
+	}
+
+	// open file
+	uploadedFile, err := file.Open()
+	if err != nil {
+		h.respWriter.HTTPJson(
+			c, 500, "internal server error", err.Error(), nil,
+		)
+		return
+	}
+	defer uploadedFile.Close()
+
+	// save to tmp folder
+	tempFilePath := "./tmp/" + file.Filename
+	if err := c.SaveUploadedFile(file, tempFilePath); err != nil {
+		h.respWriter.HTTPJson(
+			c, 500, "internal server error", err.Error(), nil,
+		)
+		return
+	}
+
+	err = h.invoiceUcase.ImportXlsx(tempFilePath)
+	if err != nil {
+		h.respWriter.HTTPCustomErr(c, err)
+		return
+	}
+
+	// clean up tmp file
+	if err := os.Remove(tempFilePath); err != nil {
+		h.respWriter.HTTPJson(
+			c, 500, "internal server error", err.Error(), nil,
+		)
+		return
+	}
+
+	h.respWriter.HTTPJson(
+		c, 200, "success", "", nil,
 	)
 }

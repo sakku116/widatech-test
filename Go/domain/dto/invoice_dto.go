@@ -108,8 +108,8 @@ type GetInvoiceByUUIDRespData struct {
 }
 
 type GetInvoiceListReq struct {
-	DateFrom    *string                  `form:"date_from" binding:"omitempty"`                      // DD-MM-YYYY, fill up date_from and date_to to get profit_total and cash_transaction_total. WARNING: if date_from is set, pagination will be ignored for profit calculation.
-	DateTo      *string                  `form:"date_to" binding:"omitempty"`                        // DD-MM-YYYY, fill up date_from and date_to to get profit_total and cash_transaction_total
+	DateFrom    *string                  `form:"date_from" binding:"omitempty"`                      // DD-MM-YYYY, fill up date_from and date_to to get profit_total and cash_transaction_total. WARNING: if set, pagination will be ignored for profit calculation.
+	DateTo      *string                  `form:"date_to" binding:"omitempty"`                        // DD-MM-YYYY, fill up date_from and date_to to get profit_total and cash_transaction_total. WARNING: if set, pagination will be ignored for profit calculation.
 	PaymentType *enum.InvoicePaymentType `form:"payment_type" binding:"omitempty,oneof=CASH CREDIT"` // leave empty to query all payment types
 	Query       *string                  `form:"query" binding:"omitempty"`
 	QueryBy     *string                  `form:"query_by" binding:"omitempty,oneof=invoice_no customer_name sales_person_name"` // leave empty to query by all queriable fields

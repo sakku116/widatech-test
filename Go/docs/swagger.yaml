@@ -195,6 +195,8 @@ paths:
     get:
       consumes:
       - application/json
+      description: set date_from and date_to to get profit_total and cash_transaction_total.\nif
+        date_from is set, pagination will be ignored for profit calculation.
       parameters:
       - description: 'DD-MM-YYYY, fill up date_from and date_to to get profit_total
           and cash_transaction_total. WARNING: if date_from is set, pagination will
@@ -370,6 +372,26 @@ paths:
                   $ref: '#/definitions/dto.UpdateInvoiceRespData'
               type: object
       summary: update invoice
+      tags:
+      - invoice
+  /invoices/import:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: xlsx file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.BaseJSONResp'
+      summary: import invoice from xlsx
       tags:
       - invoice
   /invoices/no/{invoice_no}:

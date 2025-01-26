@@ -35,6 +35,7 @@ func SetupServer(ginEngine *gin.Engine, deps CommonDeps) {
 	router.DELETE("/invoices/no/:invoice_no", invoiceHandler.DeleteInvoiceByInvoiceNo)
 	router.GET("/invoices/:invoice_uuid", invoiceHandler.GetInvoiceDetail)
 	router.GET("/invoices", invoiceHandler.GetInvoiceList)
+	router.POST("/invoices/import", invoiceHandler.ImportFromXlsx)
 
 	// swagger
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))

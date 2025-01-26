@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -19,7 +18,7 @@ type IProductRepo interface {
 	Create(invoice *model.Product) error
 	Update(invoice *model.Product) error
 	Delete(invoice *model.Product) error
-	GetByUUID(uuid uuid.UUID, preload bool) (*model.Product, error)
+	GetByUUID(uuid string, preload bool) (*model.Product, error)
 	GetList(
 		params dto.ProductRepo_GetListParams,
 	) ([]model.Product, int64, error)
@@ -65,7 +64,7 @@ func (r *ProductRepo) Delete(invoice *model.Product) error {
 	return err
 }
 
-func (r *ProductRepo) GetByUUID(uuid uuid.UUID, preload bool) (*model.Product, error) {
+func (r *ProductRepo) GetByUUID(uuid string, preload bool) (*model.Product, error) {
 	var invoice model.Product
 	query := r.DB
 	if preload {
