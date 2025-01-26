@@ -9,6 +9,12 @@
     ```
 - Verify installation by accessing `http://localhost:8000/`
 
+## Postman Request Example
+Open [./postman_collection.json](./postman_collection.json) file to see request examples.
+
+## Swagger API Documentation
+Once the application is deployed, you can access the swagger documentation via [http://localhost:8000](http://localhost:8000) or [http://localhost:8000/swagger/index.html](http://localhost:8000/swagger/index.html)
+
 ## Mandatory Features (Section 1 & Section 3)
 1. **Create API Request**
     ![image](./assets/create-invoice-success.png)
@@ -28,8 +34,3 @@
 6. **Import xlsx File**
     ![image](./assets/import.png)
 
-## Postman Request Example
-Open [./postman_collection.json](./postman_collection.json) file to see request examples.
-
-## Swagger API Documentation
-Once the application is deployed, you can access the swagger documentation via [http://localhost:8000](http://localhost:8000) or [http://localhost:8000/swagger/index.html](http://localhost:8000/swagger/index.html)
