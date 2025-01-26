@@ -54,7 +54,7 @@ func (r *InvoiceRepo) Update(invoice *model.Invoice) error {
 }
 
 func (r *InvoiceRepo) Delete(uuid string) error {
-	err := r.DB.Where("uuid = ?", uuid).Delete(&model.Invoice{}).Error
+	err := r.DB.Delete(&model.Invoice{}, "uuid = ?", uuid).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return errors.New("not found")
@@ -66,7 +66,7 @@ func (r *InvoiceRepo) Delete(uuid string) error {
 }
 
 func (r *InvoiceRepo) DeleteByInvoiceNo(invoiceNo string) error {
-	err := r.DB.Where("invoice_no = ?", invoiceNo).Delete(&model.Invoice{}).Error
+	err := r.DB.Delete(&model.Invoice{}, "invoice_no = ?", invoiceNo).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return errors.New("not found")

@@ -196,16 +196,17 @@ paths:
       consumes:
       - application/json
       description: set date_from and date_to to get profit_total and cash_transaction_total.\nif
-        date_from is set, pagination will be ignored for profit calculation.
+        date_from and date_to is set, pagination will be ignored for profit calculation.
       parameters:
       - description: 'DD-MM-YYYY, fill up date_from and date_to to get profit_total
-          and cash_transaction_total. WARNING: if date_from is set, pagination will
-          be ignored for profit calculation.'
+          and cash_transaction_total. WARNING: if set, pagination will be ignored
+          for profit calculation.'
         in: query
         name: date_from
         type: string
-      - description: DD-MM-YYYY, fill up date_from and date_to to get profit_total
-          and cash_transaction_total
+      - description: 'DD-MM-YYYY, fill up date_from and date_to to get profit_total
+          and cash_transaction_total. WARNING: if set, pagination will be ignored
+          for profit calculation.'
         in: query
         name: date_to
         type: string
@@ -344,7 +345,7 @@ paths:
       summary: get invoice detail
       tags:
       - invoice
-    put:
+    patch:
       consumes:
       - application/json
       parameters:

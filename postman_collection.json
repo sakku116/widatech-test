@@ -1,0 +1,1200 @@
+{
+	"info": {
+		"_postman_id": "8d24171f-0ca6-47a3-9a6b-75da4bc793a0",
+		"name": "Widatech test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39638116"
+	},
+	"item": [
+		{
+			"name": "Create Invoice",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"customer_name\": \"nabil\",\n  \"notes\": \"testing notes\",\n  \"payment_type\": \"CASH\",\n  \"product_uuids\": [],\n  \"sales_person_name\": \"zakky\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/invoices",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"invoices"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer_name\": \"nabil\",\n  \"notes\": \"testing notes\",\n  \"payment_type\": \"CASH\",\n  \"product_uuids\": [],\n  \"sales_person_name\": \"zakky\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/invoices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:25:04 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "346"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 200,\n    \"message\": \"success\",\n    \"detail\": \"\",\n    \"data\": {\n        \"uuid\": \"34c71378-23cf-4df5-a6e9-8546a075c200\",\n        \"created_at\": \"2025-01-26T14:25:04.557014Z\",\n        \"updated_at\": \"2025-01-26T14:25:04.557014Z\",\n        \"invoice_no\": \"1737901504\",\n        \"date\": \"2025-01-26T14:25:04.542943Z\",\n        \"customer_name\": \"nabil\",\n        \"sales_person_name\": \"zakky\",\n        \"payment_type\": \"CASH\",\n        \"notes\": \"testing notes\"\n    }\n}"
+				},
+				{
+					"name": "Invalid customer name",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer_name\": \"d\",\n  \"notes\": \"testing notes\",\n  \"payment_type\": \"CASH\",\n  \"product_uuids\": [],\n  \"sales_person_name\": \"zakky\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/invoices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:25:28 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "92"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 400,\n    \"message\": \"invalid request\",\n    \"detail\": \"invalid customer_name length\",\n    \"data\": null\n}"
+				},
+				{
+					"name": "Invalid notes",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer_name\": \"nabil\",\n  \"notes\": \"not\",\n  \"payment_type\": \"CASH\",\n  \"product_uuids\": [],\n  \"sales_person_name\": \"zakky\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/invoices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:25:52 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "84"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 400,\n    \"message\": \"invalid request\",\n    \"detail\": \"invalid notes length\",\n    \"data\": null\n}"
+				},
+				{
+					"name": "Invalid payment type",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer_name\": \"nabil\",\n  \"notes\": \"testing notes\",\n  \"payment_type\": \"INVALIDTYPE\",\n  \"product_uuids\": [],\n  \"sales_person_name\": \"zakky\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/invoices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:26:19 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "84"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 400,\n    \"message\": \"invalid request\",\n    \"detail\": \"invalid payment_type\",\n    \"data\": null\n}"
+				},
+				{
+					"name": "Invalid product uuids",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer_name\": \"nabil\",\n  \"notes\": \"testing notes\",\n  \"payment_type\": \"CASH\",\n  \"product_uuids\": [\"invalid product uuid\"],\n  \"sales_person_name\": \"zakky\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/invoices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:26:46 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "137"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 400,\n    \"message\": \"invalid request\",\n    \"detail\": \"invalid product uuids, these inputs are not found: [invalid product uuid]\",\n    \"data\": null\n}"
+				},
+				{
+					"name": "Invalid sales person name",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer_name\": \"nabil\",\n  \"notes\": \"testing notes\",\n  \"payment_type\": \"CASH\",\n  \"product_uuids\": [],\n  \"sales_person_name\": \"z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/invoices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:27:08 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "96"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 400,\n    \"message\": \"invalid request\",\n    \"detail\": \"invalid sales_person_name length\",\n    \"data\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Invoice List",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/invoices?date_from=01-01-2021&date_to=01-01-2021&limit=10&page=1&sort_by=updated_at&sort_order=desc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"invoices"
+					],
+					"query": [
+						{
+							"key": "date_from",
+							"value": "01-01-2021",
+							"description": "set date_from and date_to to get profit_total and cash_transaction_total"
+						},
+						{
+							"key": "date_to",
+							"value": "01-01-2021",
+							"description": "set date_from and date_to to get profit_total and cash_transaction_total"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "sort_by",
+							"value": "updated_at"
+						},
+						{
+							"key": "sort_order",
+							"value": "desc"
+						},
+						{
+							"key": "query",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "query_by",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success with date range filtering for profit calculation",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/invoices?date_from=01-01-2021&date_to=01-01-2021&limit=10&page=1&sort_by=updated_at&sort_order=desc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices"
+							],
+							"query": [
+								{
+									"key": "date_from",
+									"value": "01-01-2021",
+									"description": "set date_from and date_to to get profit_total and cash_transaction_total"
+								},
+								{
+									"key": "date_to",
+									"value": "01-01-2021",
+									"description": "set date_from and date_to to get profit_total and cash_transaction_total"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "sort_by",
+									"value": "updated_at"
+								},
+								{
+									"key": "sort_order",
+									"value": "desc"
+								},
+								{
+									"key": "query",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "query_by",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:30:46 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "763"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 200,\n    \"message\": \"success\",\n    \"detail\": \"\",\n    \"data\": {\n        \"total\": 2,\n        \"current_page\": 1,\n        \"total_page\": 1,\n        \"profit_total\": 366000,\n        \"cash_transaction_total\": 4026000,\n        \"data\": [\n            {\n                \"uuid\": \"6f9f1c12-94e1-4e96-af1f-1e32877b7640\",\n                \"created_at\": \"2025-01-26T21:00:23.261343+07:00\",\n                \"updated_at\": \"2025-01-26T21:00:23.261343+07:00\",\n                \"invoice_no\": \"2\",\n                \"date\": \"2021-01-01T00:00:00Z\",\n                \"customer_name\": \"John\",\n                \"sales_person_name\": \"Doe\",\n                \"payment_type\": \"CASH\",\n                \"notes\": \"Lorem ipsum\",\n                \"product_total\": 1\n            },\n            {\n                \"uuid\": \"5418132b-116e-4b64-8a83-8b7afb77241f\",\n                \"created_at\": \"2025-01-26T21:00:23.254821+07:00\",\n                \"updated_at\": \"2025-01-26T21:00:23.254821+07:00\",\n                \"invoice_no\": \"1\",\n                \"date\": \"2021-01-01T00:00:00Z\",\n                \"customer_name\": \"John\",\n                \"sales_person_name\": \"Doe\",\n                \"payment_type\": \"CASH\",\n                \"notes\": \"Lorem ipsum\",\n                \"product_total\": 2\n            }\n        ]\n    }\n}"
+				},
+				{
+					"name": "Success without date range filtering",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/invoices?limit=10&page=1&sort_by=updated_at&sort_order=desc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices"
+							],
+							"query": [
+								{
+									"key": "date_from",
+									"value": "01-01-2021",
+									"description": "set date_from and date_to to get profit_total and cash_transaction_total",
+									"disabled": true
+								},
+								{
+									"key": "date_to",
+									"value": "01-01-2021",
+									"description": "set date_from and date_to to get profit_total and cash_transaction_total",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "sort_by",
+									"value": "updated_at"
+								},
+								{
+									"key": "sort_order",
+									"value": "desc"
+								},
+								{
+									"key": "query",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "query_by",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:31:56 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2022"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 200,\n    \"message\": \"success\",\n    \"detail\": \"\",\n    \"data\": {\n        \"total\": 6,\n        \"current_page\": 1,\n        \"total_page\": 1,\n        \"profit_total\": 0,\n        \"cash_transaction_total\": 0,\n        \"data\": [\n            {\n                \"uuid\": \"c02bbdc7-43cf-4db8-a58c-8dab1df81b79\",\n                \"created_at\": \"2025-01-26T21:27:04.882696+07:00\",\n                \"updated_at\": \"2025-01-26T21:27:04.882696+07:00\",\n                \"invoice_no\": \"1737901624\",\n                \"date\": \"2025-01-26T14:27:04.876707Z\",\n                \"customer_name\": \"nabil\",\n                \"sales_person_name\": \"za\",\n                \"payment_type\": \"CASH\",\n                \"notes\": \"testing notes\",\n                \"product_total\": 0\n            },\n            {\n                \"uuid\": \"34c71378-23cf-4df5-a6e9-8546a075c200\",\n                \"created_at\": \"2025-01-26T21:25:04.557014+07:00\",\n                \"updated_at\": \"2025-01-26T21:25:04.557014+07:00\",\n                \"invoice_no\": \"1737901504\",\n                \"date\": \"2025-01-26T14:25:04.542943Z\",\n                \"customer_name\": \"nabil\",\n                \"sales_person_name\": \"zakky\",\n                \"payment_type\": \"CASH\",\n                \"notes\": \"testing notes\",\n                \"product_total\": 0\n            },\n            {\n                \"uuid\": \"f937df72-833b-46f3-88ab-7fa1de341c96\",\n                \"created_at\": \"2025-01-26T21:19:24.652921+07:00\",\n                \"updated_at\": \"2025-01-26T21:19:24.652921+07:00\",\n                \"invoice_no\": \"1737901164\",\n                \"date\": \"2025-01-26T14:19:24.646863Z\",\n                \"customer_name\": \"nabil\",\n                \"sales_person_name\": \"zakky\",\n                \"payment_type\": \"CASH\",\n                \"notes\": \"testing notes\",\n                \"product_total\": 0\n            },\n            {\n                \"uuid\": \"4c779f6f-b2f5-4503-ac63-d3a90ec38e46\",\n                \"created_at\": \"2025-01-26T21:00:23.263019+07:00\",\n                \"updated_at\": \"2025-01-26T21:00:23.263019+07:00\",\n                \"invoice_no\": \"3\",\n                \"date\": \"2021-01-03T00:00:00Z\",\n                \"customer_name\": \"Jane\",\n                \"sales_person_name\": \"Doe\",\n                \"payment_type\": \"CREDIT\",\n                \"notes\": \"Lorem ipsum\",\n                \"product_total\": 2\n            },\n            {\n                \"uuid\": \"6f9f1c12-94e1-4e96-af1f-1e32877b7640\",\n                \"created_at\": \"2025-01-26T21:00:23.261343+07:00\",\n                \"updated_at\": \"2025-01-26T21:00:23.261343+07:00\",\n                \"invoice_no\": \"2\",\n                \"date\": \"2021-01-01T00:00:00Z\",\n                \"customer_name\": \"John\",\n                \"sales_person_name\": \"Doe\",\n                \"payment_type\": \"CASH\",\n                \"notes\": \"Lorem ipsum\",\n                \"product_total\": 1\n            },\n            {\n                \"uuid\": \"5418132b-116e-4b64-8a83-8b7afb77241f\",\n                \"created_at\": \"2025-01-26T21:00:23.254821+07:00\",\n                \"updated_at\": \"2025-01-26T21:00:23.254821+07:00\",\n                \"invoice_no\": \"1\",\n                \"date\": \"2021-01-01T00:00:00Z\",\n                \"customer_name\": \"John\",\n                \"sales_person_name\": \"Doe\",\n                \"payment_type\": \"CASH\",\n                \"notes\": \"Lorem ipsum\",\n                \"product_total\": 2\n            }\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Invoice Detail",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/invoices/5418132b-116e-4b64-8a83-8b7afb77241f",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"invoices",
+						"5418132b-116e-4b64-8a83-8b7afb77241f"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/invoices/5418132b-116e-4b64-8a83-8b7afb77241f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices",
+								"5418132b-116e-4b64-8a83-8b7afb77241f"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:33:57 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "946"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 200,\n    \"message\": \"success\",\n    \"detail\": \"\",\n    \"data\": {\n        \"uuid\": \"5418132b-116e-4b64-8a83-8b7afb77241f\",\n        \"created_at\": \"2025-01-26T21:00:23.254821+07:00\",\n        \"updated_at\": \"2025-01-26T21:00:23.254821+07:00\",\n        \"invoice_no\": \"1\",\n        \"date\": \"2021-01-01T00:00:00Z\",\n        \"customer_name\": \"John\",\n        \"sales_person_name\": \"Doe\",\n        \"payment_type\": \"CASH\",\n        \"notes\": \"Lorem ipsum\",\n        \"products\": [\n            {\n                \"uuid\": \"df77f0cb-968d-4ee6-8806-c7dedb85eb0a\",\n                \"invoice_uuid\": \"5418132b-116e-4b64-8a83-8b7afb77241f\",\n                \"created_at\": \"2025-01-26T21:00:23.256819+07:00\",\n                \"updated_at\": \"2025-01-26T21:00:23.256819+07:00\",\n                \"item_name\": \"Bluetooth speaker\",\n                \"quantity\": 3,\n                \"total_cost_of_goods_sold\": 630000,\n                \"total_price_sold\": 756000\n            },\n            {\n                \"uuid\": \"19db39e0-c2e0-45cd-b22e-ed514754deef\",\n                \"invoice_uuid\": \"5418132b-116e-4b64-8a83-8b7afb77241f\",\n                \"created_at\": \"2025-01-26T21:00:23.256819+07:00\",\n                \"updated_at\": \"2025-01-26T21:00:23.256819+07:00\",\n                \"item_name\": \"Headphone\",\n                \"quantity\": 8,\n                \"total_cost_of_goods_sold\": 400000,\n                \"total_price_sold\": 480000\n            }\n        ]\n    }\n}"
+				},
+				{
+					"name": "Not Found",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/invoices/5418132b-116e-4b64-8a83-8b7afb77241dfad",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices",
+								"5418132b-116e-4b64-8a83-8b7afb77241dfad"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:34:42 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "75"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 404,\n    \"message\": \"invoice not found\",\n    \"detail\": \"not found\",\n    \"data\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Patch Invoice",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "// use null to ignore field (if you dont want to update the field)\n// use 'null' (string) to remove / set field to null for nullable string field such as notes\n{\n  \"customer_name\": \"edited_customer_name\",\n//   \"notes\": \"null\"\n//   \"payment_type\": \"CASH\",\n  \"product_uuids\": [\n    \"string\"\n  ]\n//   \"sales_person_name\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/invoices/5418132b-116e-4b64-8a83-8b7afb77241f",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"invoices",
+						"5418132b-116e-4b64-8a83-8b7afb77241f"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success update customer name",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// use null to ignore field (if you dont want to update the field)\n// use 'null' (string) to remove / set field to null for nullable string field such as notes\n{\n  \"customer_name\": \"edited_customer_name\"\n//   \"notes\": \"string\",\n//   \"payment_type\": \"CASH\",\n//   \"product_uuids\": [\n//     \"string\"\n//   ],\n//   \"sales_person_name\": \"string\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/invoices/5418132b-116e-4b64-8a83-8b7afb77241f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices",
+								"5418132b-116e-4b64-8a83-8b7afb77241f"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:40:09 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "346"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 200,\n    \"message\": \"success\",\n    \"detail\": \"\",\n    \"data\": {\n        \"uuid\": \"5418132b-116e-4b64-8a83-8b7afb77241f\",\n        \"created_at\": \"2025-01-26T21:00:23.254821+07:00\",\n        \"updated_at\": \"2025-01-26T14:40:09.921353Z\",\n        \"invoice_no\": \"1\",\n        \"date\": \"2021-01-01T00:00:00Z\",\n        \"customer_name\": \"edited_customer_name\",\n        \"sales_person_name\": \"Doe\",\n        \"payment_type\": \"CASH\",\n        \"notes\": \"Lorem ipsum\"\n    }\n}"
+				},
+				{
+					"name": "Success set nullable field to null",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// use null to ignore field (if you dont want to update the field)\n// use 'null' (string) to remove / set field to null for nullable string field such as notes\n{\n  \"customer_name\": \"edited_customer_name\",\n  \"notes\": \"null\"\n//   \"payment_type\": \"CASH\",\n//   \"product_uuids\": [\n//     \"string\"\n//   ],\n//   \"sales_person_name\": \"string\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/invoices/5418132b-116e-4b64-8a83-8b7afb77241f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices",
+								"5418132b-116e-4b64-8a83-8b7afb77241f"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:41:07 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "337"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 200,\n    \"message\": \"success\",\n    \"detail\": \"\",\n    \"data\": {\n        \"uuid\": \"5418132b-116e-4b64-8a83-8b7afb77241f\",\n        \"created_at\": \"2025-01-26T21:00:23.254821+07:00\",\n        \"updated_at\": \"2025-01-26T14:41:07.444389Z\",\n        \"invoice_no\": \"1\",\n        \"date\": \"2021-01-01T00:00:00Z\",\n        \"customer_name\": \"edited_customer_name\",\n        \"sales_person_name\": \"Doe\",\n        \"payment_type\": \"CASH\",\n        \"notes\": null\n    }\n}"
+				},
+				{
+					"name": "Payment type invalid",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// use null to ignore field (if you dont want to update the field)\n// use 'null' (string) to remove / set field to null for nullable string field such as notes\n{\n  \"customer_name\": \"edited_customer_name\",\n//   \"notes\": \"null\"\n  \"payment_type\": \"CASHASD\"\n//   \"product_uuids\": [\n//     \"string\"\n//   ],\n//   \"sales_person_name\": \"string\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/invoices/5418132b-116e-4b64-8a83-8b7afb77241f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices",
+								"5418132b-116e-4b64-8a83-8b7afb77241f"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:41:49 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "84"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 400,\n    \"message\": \"invalid request\",\n    \"detail\": \"invalid payment_type\",\n    \"data\": null\n}"
+				},
+				{
+					"name": "Product uuids not found",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// use null to ignore field (if you dont want to update the field)\n// use 'null' (string) to remove / set field to null for nullable string field such as notes\n{\n  \"customer_name\": \"edited_customer_name\",\n//   \"notes\": \"null\"\n//   \"payment_type\": \"CASH\",\n  \"product_uuids\": [\n    \"string\"\n  ]\n//   \"sales_person_name\": \"string\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/invoices/5418132b-116e-4b64-8a83-8b7afb77241f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices",
+								"5418132b-116e-4b64-8a83-8b7afb77241f"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:42:18 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "123"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 400,\n    \"message\": \"invalid request\",\n    \"detail\": \"invalid product uuids, these inputs are not found: [string]\",\n    \"data\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete invoice by invoice no",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/invoices/no/1737901504",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"invoices",
+						"no",
+						"1737901504"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Not found",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/invoices/no/173790162",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices",
+								"no",
+								"173790162"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:48:52 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "75"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 404,\n    \"message\": \"invoice not found\",\n    \"detail\": \"not found\",\n    \"data\": null\n}"
+				},
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/invoices/no/1737901504",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices",
+								"no",
+								"1737901504"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:49:37 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "56"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 200,\n    \"message\": \"success\",\n    \"detail\": \"\",\n    \"data\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Import Invoice file",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/zakky/Downloads/WidaTech Invoice Import.xlsx"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/invoices/import",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"invoices",
+						"import"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Partial success (default given file)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/zakky/Downloads/WidaTech Invoice Import.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/invoices/import",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"invoices",
+								"import"
+							]
+						}
+					},
+					"status": "Multi-Status",
+					"code": 207,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Jan 2025 14:54:06 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "537"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 207,\n    \"message\": \"partial success, some rows failed to proccess\",\n    \"detail\": \"some rows failed to proccess\",\n    \"data\": [\n        {\n            \"error\": \"invalid payment_type\",\n            \"invoice_no\": \"4\",\n            \"product_statuses\": [],\n            \"row_index\": 4\n        },\n        {\n            \"error\": \"invalid sales_person_name length\",\n            \"invoice_no\": \"5\",\n            \"product_statuses\": [],\n            \"row_index\": 5\n        },\n        {\n            \"error\": \"invoice 2 already exists\",\n            \"invoice_no\": \"2\",\n            \"product_statuses\": [],\n            \"row_index\": 6\n        },\n        {\n            \"error\": \"error on products\",\n            \"invoice_no\": \"6\",\n            \"product_statuses\": [\n                {\n                    \"data\": null,\n                    \"error\": \"total cogs is required\",\n                    \"row_index\": 10\n                }\n            ],\n            \"row_index\": 7\n        }\n    ]\n}"
+				}
+			]
+		}
+	]
+}

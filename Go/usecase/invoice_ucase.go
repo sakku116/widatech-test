@@ -254,7 +254,26 @@ func (u *InvoiceUcase) UpdateInvoice(
 }
 
 func (u *InvoiceUcase) DeleteByInvoiceNo(invoiceNo string) error {
-	err := u.invoiceRepo.DeleteByInvoiceNo(invoiceNo)
+	// find
+	_, err := u.invoiceRepo.GetByInvoiceNo(invoiceNo)
+	if err != nil {
+		if err.Error() == "not found" {
+			return &error_utils.CustomErr{
+				HttpCode: 404,
+				Message:  "invoice not found",
+				Detail:   err.Error(),
+				Data:     nil,
+			}
+		}
+		return &error_utils.CustomErr{
+			HttpCode: 500,
+			Message:  "internal server error",
+			Detail:   err.Error(),
+			Data:     nil,
+		}
+	}
+
+	err = u.invoiceRepo.DeleteByInvoiceNo(invoiceNo)
 	if err != nil {
 		if err.Error() == "not found" {
 			return &error_utils.CustomErr{
@@ -278,8 +297,28 @@ func (u *InvoiceUcase) DeleteByInvoiceNo(invoiceNo string) error {
 func (u *InvoiceUcase) DeleteInvoice(
 	invoiceUUID string,
 ) error {
-	// find
-	err := u.invoiceRepo.Delete(invoiceUUID)
+	logger.Debug("delete invoice by uuid")
+
+	// find invoice
+	_, err := u.invoiceRepo.GetByUUID(invoiceUUID, false)
+	if err != nil {
+		if err.Error() == "not found" {
+			return &error_utils.CustomErr{
+				HttpCode: 404,
+				Message:  "invoice not found",
+				Detail:   err.Error(),
+				Data:     nil,
+			}
+		}
+		return &error_utils.CustomErr{
+			HttpCode: 500,
+			Message:  "internal server error",
+			Detail:   err.Error(),
+			Data:     nil,
+		}
+	}
+
+	err = u.invoiceRepo.Delete(invoiceUUID)
 	if err != nil {
 		if err.Error() == "not found" {
 			return &error_utils.CustomErr{

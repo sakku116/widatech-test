@@ -30,7 +30,7 @@ func SetupServer(ginEngine *gin.Engine, deps CommonDeps) {
 
 	// invoice
 	router.POST("/invoices", invoiceHandler.CreateInvoice)
-	router.PUT("/invoices/:invoice_uuid", invoiceHandler.UpdateInvoice)
+	router.PATCH("/invoices/:invoice_uuid", invoiceHandler.UpdateInvoice)
 	router.DELETE("/invoices/:invoice_uuid", invoiceHandler.DeleteInvoice)
 	router.DELETE("/invoices/no/:invoice_no", invoiceHandler.DeleteInvoiceByInvoiceNo)
 	router.GET("/invoices/:invoice_uuid", invoiceHandler.GetInvoiceDetail)

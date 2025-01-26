@@ -69,7 +69,7 @@ func (h *InvoiceHandler) CreateInvoice(c *gin.Context) {
 // @Param invoice_uuid path string true "invoice uuid"
 // @Param payload body dto.UpdateInvoiceReq true "update invoice request"
 // @Success 200 {object} dto.BaseJSONResp{data=dto.UpdateInvoiceRespData}
-// @Router /invoices/{invoice_uuid} [put]
+// @Router /invoices/{invoice_uuid} [patch]
 func (h *InvoiceHandler) UpdateInvoice(c *gin.Context) {
 	invoiceUUID := c.Param("invoice_uuid")
 	var payload dto.UpdateInvoiceReq

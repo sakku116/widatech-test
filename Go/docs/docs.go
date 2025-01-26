@@ -17,7 +17,7 @@ const docTemplate = `{
     "paths": {
         "/invoices": {
             "get": {
-                "description": "set date_from and date_to to get profit_total and cash_transaction_total.\\nif date_from is set, pagination will be ignored for profit calculation.",
+                "description": "set date_from and date_to to get profit_total and cash_transaction_total.\\nif date_from and date_to is set, pagination will be ignored for profit calculation.",
                 "consumes": [
                     "application/json"
                 ],
@@ -31,13 +31,13 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "DD-MM-YYYY, fill up date_from and date_to to get profit_total and cash_transaction_total. WARNING: if date_from is set, pagination will be ignored for profit calculation.",
+                        "description": "DD-MM-YYYY, fill up date_from and date_to to get profit_total and cash_transaction_total. WARNING: if set, pagination will be ignored for profit calculation.",
                         "name": "date_from",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "DD-MM-YYYY, fill up date_from and date_to to get profit_total and cash_transaction_total",
+                        "description": "DD-MM-YYYY, fill up date_from and date_to to get profit_total and cash_transaction_total. WARNING: if set, pagination will be ignored for profit calculation.",
                         "name": "date_to",
                         "in": "query"
                     },
@@ -282,7 +282,36 @@ const docTemplate = `{
                     }
                 }
             },
-            "put": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "invoice"
+                ],
+                "summary": "delete invoice",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "invoice uuid",
+                        "name": "invoice_uuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BaseJSONResp"
+                        }
+                    }
+                }
+            },
+            "patch": {
                 "consumes": [
                     "application/json"
                 ],
@@ -328,35 +357,6 @@ const docTemplate = `{
                                     }
                                 }
                             ]
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "invoice"
-                ],
-                "summary": "delete invoice",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "invoice uuid",
-                        "name": "invoice_uuid",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.BaseJSONResp"
                         }
                     }
                 }
