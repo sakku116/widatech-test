@@ -460,8 +460,8 @@ func (u *InvoiceUcase) GetInvoiceList(
 		var profitTotal, cashTransactionTotal int64
 		for _, invoice := range invoices {
 			for _, product := range invoice.Products {
-				profitTotal += product.TotalPriceSold - product.TotalCostOfGoodsSold
-				cashTransactionTotal += product.TotalPriceSold + product.TotalCostOfGoodsSold
+				profitTotal += (product.TotalPriceSold - product.TotalCostOfGoodsSold) * int64(product.Quantity)
+				cashTransactionTotal += (product.TotalPriceSold + product.TotalCostOfGoodsSold) * int64(product.Quantity)
 			}
 		}
 		resp.ProfitTotal = profitTotal
